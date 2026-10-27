@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A3 - Corazón con ondas</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #ffeaf2; font-family: Arial, sans-serif; }
+  canvas { width: min(90vw, 700px); height: auto; background: #fff6fa; border: 2px solid #f4b5cc; border-radius: 18px; }
+</style>
+</head>
+<body>
+<canvas id="lienzo" width="700" height="450"></canvas>
+<script>
+const canvas = document.getElementById('lienzo');
+const ctx = canvas.getContext('2d');
+let tiempo = 0;
+
+function dibujarCorazon() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // La onda senoidal cambia la posición vertical.
+  const y = 225 + Math.sin(tiempo) * 65;
+  // La onda coseno cambia el tamaño del corazón.
+  const escala = 1 + Math.cos(tiempo * 1.5) * 0.18;
+
+  ctx.save();
+  ctx.translate(350, y);
+  ctx.scale(escala, escala);
+  ctx.beginPath();
+  ctx.moveTo(0, 45);
+  ctx.bezierCurveTo(-120, -25, -60, -105, 0, -48);
+  ctx.bezierCurveTo(60, -105, 120, -25, 0, 45);
+  ctx.closePath();
+  ctx.fillStyle = '#f06292';
+  ctx.fill();
+  ctx.restore();
+
+  tiempo += 0.025;
+  requestAnimationFrame(dibujarCorazon);
+}
+
+dibujarCorazon();
+</script>
+</body>
+</html>
